@@ -1,25 +1,25 @@
 {
-  "name": "backend",
+  "name": "wedding-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "Backend for wedding site",
   "dependencies": {
-    "core-js": "^3.41.0",
-    "docker": "^1.0.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
     "eslint": "^9.23.0",
-    "eslint-plugin-import": "^2.31.0",
-    "knex": "^3.1.0",
-    "koa": "^2.16.0",
-    "koa-bodyparser": "^4.4.1",
-    "koa-router": "^13.0.1",
-    "pg": "^8.13.3",
-    "postgres": "^3.4.5"
+    "globals": "^16.0.0"
   }
 }
