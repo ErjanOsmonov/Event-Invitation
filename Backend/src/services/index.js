@@ -1,6 +1,6 @@
 const db = require('../utils/config');
-const User = require('../models/User');
-const Wish = require('../models/Wish');
+const User = require('../models/User.js');
+const Wish = require('../models/Wish.js');
 
 const registerGuest = (firstName, lastName, phone) => {
   return new Promise((resolve, reject) => {
