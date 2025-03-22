@@ -1,6 +1,7 @@
 const db = require('../utils/config');
-const User = require('../models/User.js');
-const Wish = require('../models/Wish.js');
+const User = require('../models/User');
+const Wish = require('../models/Wish');
+const crypto = require('crypto');
 
 const registerGuest = (firstName, lastName, phone) => {
   return new Promise((resolve, reject) => {
@@ -22,6 +23,33 @@ const registerGuest = (firstName, lastName, phone) => {
             }
           }
         );
+      }
+    });
+  });
+};
+
+const generateToken = (userId) => {
+  return new Promise((resolve, reject) => {
+    const token = crypto.randomBytes(16).toString('hex');
+    db.run('INSERT INTO tokens (userId, token) VALUES (?, ?)', [userId, token], (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(token);
+      }
+    });
+  });
+};
+
+const verifyToken = (token) => {
+  return new Promise((resolve, reject) => {
+    db.get('SELECT userId FROM tokens WHERE token = ?', [token], (err, row) => {
+      if (err) {
+        reject(err);
+      } else if (!row) {
+        reject(new Error('Invalid or expired token'));
+      } else {
+        resolve(row.userId);
       }
     });
   });
@@ -72,4 +100,4 @@ const getWishes = () => {
   });
 };
 
-module.exports = { registerGuest, getGuests, addWish, getWishes };
+module.exports = { registerGuest, generateToken, verifyToken, getGuests, addWish, getWishes };

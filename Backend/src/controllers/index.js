@@ -9,6 +9,8 @@ const registerGuest = async (req, res) => {
     }
     const { firstName, lastName, phone } = req.body;
     const userId = await services.registerGuest(firstName, lastName, phone);
+    const token = await services.generateToken(userId);
+    res.cookie('token', token, { httpOnly: true });
     res.status(201).json({ id: userId, message: 'Guest registered successfully' });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -26,11 +28,19 @@ const getGuests = async (req, res) => {
 
 const addWish = async (req, res) => {
   try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+    const userIdFromToken = await services.verifyToken(token);
     const { error } = validateWish(req.body);
     if (error) {
       return res.status(400).json({ error: error.details.map((e) => e.message) });
     }
     const { userId, text } = req.body;
+    if (userId !== userIdFromToken) {
+      return res.status(403).json({ error: 'Unauthorized: userId does not match token' });
+    }
     await services.addWish(userId, text);
     res.status(201).json({ message: 'Wish added successfully' });
   } catch (error) {
