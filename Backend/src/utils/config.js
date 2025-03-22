@@ -1,1 +1,2 @@
-export const HTTP_PORT = 8080;
+const HTTP_PORT = 8080;
+export default HTTP_PORT;
