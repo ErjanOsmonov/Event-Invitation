@@ -24,7 +24,7 @@
       <h1 class="header__title">A Paradise Wedding</h1>
       <p class="header__names">Alina & Temirlan</p>
       <p class="header__date">Saturday, June 15th, 2028</p>
-      <div class="countdown">Countdown Placeholder</div>
+      <div class="countdown" id="countdown">Countdown Placeholder</div>
     </div>
   </header>
 
@@ -79,39 +79,33 @@
   <section class="registration" id="rsvp">
     <div class="registration__container">
       <h2 class="registration__title">Registration</h2>
-      <form class="registration__form">
-        <input type="text" placeholder="First Name" required>
-        <input type="text" placeholder="Last Name" required>
-        <input type="tel" placeholder="Phone Number" required>
+      <form class="registration__form" id="registrationForm">
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
         <button type="submit" class="registration__button">Confirm Attendance</button>
       </form>
+      <p id="registrationMessage"></p>
     </div>
   </section>
 
   <section class="guests" id="guests">
     <div class="guests__container">
       <h2 class="guests__title">Confirmed Guests</h2>
-      <ul class="guests__list">
-        <li>Guest 1</li>
-        <li>Guest 2</li>
-      </ul>
-      <p class="guests__count">Total Guests: 2</p>
+      <button id="guestsToggle" class="registration__button">Hide Guests</button>
+      <ul class="guests__list" id="guestsList"></ul>
+      <p class="guests__count" id="guestsCount">Total Guests: 0</p>
     </div>
   </section>
 
   <section class="wishes" id="wishes">
     <div class="wishes__container">
       <h2 class="wishes__title">Guest Wishes</h2>
-      <form class="wishes__form">
-        <textarea placeholder="Leave your wishes here..." required></textarea>
+      <form class="wishes__form" id="wishForm">
+        <textarea id="wishText" placeholder="Leave your wishes here..." required></textarea>
         <button type="submit" class="wishes__button">Send Wish</button>
       </form>
-      <div class="wishes__list">
-        <div class="wishes__item">
-          <div class="wishes__item-name">Guest 1</div>
-          <div class="wishes__item-text">Wishing you happiness!</div>
-        </div>
-      </div>
+      <div class="wishes__list" id="wishesList"></div>
     </div>
   </section>
 
@@ -126,5 +120,7 @@
       <p class="footer__message">With love, <span>Alina & Temirlan</span></p>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@ const checkAuth = async (req, res, next) => {
   }
 
   try {
-    const userId = await guestService.checkToken(token);
+    const userId = await guestService.verifyToken(token);
     req.userId = userId;
     next();
   } catch {

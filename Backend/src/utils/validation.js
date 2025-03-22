@@ -1,22 +1,20 @@
 const Joi = require('joi');
 
-const guestSchema = Joi.object({
-  firstName: Joi.string().min(1).required(),
-  lastName: Joi.string().min(1).required(),
-  phone: Joi.string().pattern(/^[0-9]{10,15}$/).required()
-});
-
-const wishSchema = Joi.object({
-  userId: Joi.number().integer().positive().required(),
-  text: Joi.string().min(1).max(500).required()
-});
-
 const validateGuest = (data) => {
-  return guestSchema.validate(data, { abortEarly: false });
+  const schema = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    phone: Joi.string().min(10).required()
+  });
+  return schema.validate(data);
 };
 
 const validateWish = (data) => {
-  return wishSchema.validate(data, { abortEarly: false });
+  const schema = Joi.object({
+    userId: Joi.number().required(),
+    text: Joi.string().required()
+  });
+  return schema.validate(data);
 };
 
 module.exports = { validateGuest, validateWish };
