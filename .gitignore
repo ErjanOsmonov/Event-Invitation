@@ -1,3 +1,4 @@
 node_modules/
 *.log
 backend/wedding.db
+.DS_Store
