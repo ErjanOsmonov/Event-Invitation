@@ -9,3 +9,10 @@ export async function getUserById(id) {
         
     return user;
 }
+
+export async function getUsers() {
+    const knex = await getKnex();
+    const users = await knex('users')
+
+    return users;
+}

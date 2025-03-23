@@ -1,21 +1,18 @@
 import Router from 'koa-router';
-import getKnex from '../knex.js';
-import { getUserById } from '../services/users.js';
+import { getUserById, getUsers } from '../services/users.js';
 
 export const userRouter = new Router();
 
 userRouter.get('/users', async (ctx) => {
-    const knex = await getKnex();
-    const users = await knex('users');
+    const users = await getUsers()
   
     ctx.body = { users };
     ctx.status = 200;
 });
 
 userRouter.get('/users/:id', async (ctx) => {
+    const user = await getUserById(ctx.params.id);
     
-    const user = getUserById(ctx.params.id);
-    console.log(user);
     ctx.body = {
         user,
     };
