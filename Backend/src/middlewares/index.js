@@ -9,7 +9,31 @@ async function main() {
   const app = new Koa();
 
   app.use(bodyparser());
+
+  app.use(async (ctx, next) => {
+    try {
+      await next();
+      console.log('after request in try-catch')
+    } catch (e) {
+      console.log(e);
+      console.log('caught in try-catch', e.message);
+
+      ctx.status = 500;
+      ctx.body = {
+        message: e.message,
+      }
+    };
+  });
+
+  app.use(async (ctx, next) => {
+    console.log(ctx.method, ctx.url, ctx.body);
+
+    await next();
+    console.log('after request in logger')
+  })
+
   app.use(userRouter.routes());
+  app.use(userRouter.allowedMethods())
   app.use(async (ctx) => {
     ctx.body = {
       hello: 'world',
