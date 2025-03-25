@@ -1,6 +1,6 @@
 import Koa from 'koa';
 import bodyparser from 'koa-bodyparser';
-import { userRouter } from '../controllers/index.js';
+import { userRouter, authRouter } from '../controllers/index.js';
 import { HTTP_PORT } from '../utils/config.js';
 
 async function main() {
@@ -24,14 +24,33 @@ async function main() {
         return;
       }
 
-      console.log('caught in try-catch', e.message);
+      console.log('caught in try-catch', e.message, e.stack, e.details);
       ctx.status = 500;
       ctx.body = {
         message: e.message,
+        errors: e.details,
       }
     };
   });
 
+  app.use(authRouter.routes());
+
+  app.use(async (ctx, next) => {
+    const { headers } = ctx.request;
+
+    console.log(headers);
+    const {authorization} = headers;
+
+    const token = authorization?.split(' ')[1];
+    console.log(token);
+
+    if (!true) {
+      throw new Error("NOT AUTHORIZED");
+    }
+
+    return next();
+  })
+  
   app.use(async (ctx, next) => {
     console.log(ctx.method, ctx.url, ctx.body);
 
