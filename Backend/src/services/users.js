@@ -1,5 +1,5 @@
 import getKnex from "../knex.js";   
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 
 const knex = await getKnex();
 
@@ -23,6 +23,7 @@ export async function userRegistration(info) {
 
     const {name, surname, email, password} = info;
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     const [user] = await knex('users')
         .insert({
             name,
@@ -37,7 +38,5 @@ export async function userRegistration(info) {
 }
 
 export async function findByEmail(email) {
-    console.log('started finding email');
-
     return await knex('users').where({email}).first();
 }

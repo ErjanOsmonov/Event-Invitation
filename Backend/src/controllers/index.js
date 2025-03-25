@@ -30,6 +30,8 @@ userRouter.post('/register', async (ctx) => {
         })
 
         const existingUser = await findByEmail(value.email);
+        // console.log('found email', value.email, await existingUser)
+
         if (existingUser) {
             ctx.status = 409;
             ctx.body = {error: 'Email already exists'};
@@ -37,6 +39,7 @@ userRouter.post('/register', async (ctx) => {
         }
 
         const newUser = await userRegistration(value);
+        console.log('finish registration');
 
         ctx.status = 201;
         ctx.body = {
@@ -45,7 +48,8 @@ userRouter.post('/register', async (ctx) => {
         }
     } catch (e) {
         ctx.status = 500;
-        console.error('Registration error')
+        console.error('Registration error', e.message, e.stack);
+        ctx.body = {message: 'Internal Server error', details: e.message}
     }
     
     ctx.status = 201; // created
