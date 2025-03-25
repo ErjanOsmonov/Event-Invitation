@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "docker": "^0.2.14",
     "dotenv": "^16.4.7",
     "joi": "^17.13.3",

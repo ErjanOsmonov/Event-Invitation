@@ -1,6 +1,6 @@
 import Router from 'koa-router';
-import Joi from 'joi';
-import { getUserById, getUsers } from '../services/users.js';
+import { findByEmail, getUserById, getUsers, userRegistration } from '../services/users.js';
+import { joiSchema } from '../services/validation.js';
 
 export const userRouter = new Router();
 
@@ -23,14 +23,30 @@ userRouter.get('/users/:id', async (ctx) => {
 
 userRouter.post('/register', async (ctx) => {
     console.log('post request to /users', ctx.request.body);
-    const joiSchema = Joi.object({
-        email: Joi.string().email().required(),
-        password: Joi.string().required()
-    });
+    
+    try {
+        const { value } = joiSchema.validate(ctx.request.body, {
+            aboutEarly: false,
+        })
 
-    const value = await joiSchema.validateAsync(ctx.request.body);
-    // console.log(value);
+        const existingUser = await findByEmail(value.email);
+        if (existingUser) {
+            ctx.status = 409;
+            ctx.body = {error: 'Email already exists'};
+            return;
+        }
 
-    ctx.body = {value};
+        const newUser = await userRegistration(value);
+
+        ctx.status = 201;
+        ctx.body = {
+            message: 'User registered correctly',
+            user: newUser,
+        }
+    } catch (e) {
+        ctx.status = 500;
+        console.error('Registration error')
+    }
+    
     ctx.status = 201; // created
 })
