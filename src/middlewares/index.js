@@ -10,7 +10,6 @@ const logger = {
 
 async function main() {
   logger.info('Server starting...');
-
   const app = new Koa();
 
   app.use(bodyparser({
