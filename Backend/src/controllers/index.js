@@ -22,3 +22,11 @@ userRouter.get('/users/:id', async (ctx) => {
     ctx.status = 200;
 });
 
+userRouter.get('/comments', async (ctx) => {
+    // const comments = await 
+})
+
+userRouter.post('/post', async (ctx) => {
+    
+})
+
